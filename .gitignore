@@ -1,4 +1,6 @@
 
+# Ignore local secrets, build output, generated Python files, and virtualenvs.
+
 # Logs
 .env
 .env.*

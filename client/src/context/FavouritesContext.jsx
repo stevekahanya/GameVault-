@@ -8,6 +8,7 @@ import {
 import { FavoritesContext } from "./favoritesContextValue";
 import { useAuth } from "./useAuth";
 
+// Loads and mutates favorites for the authenticated user only.
 export function FavoritesProvider({ children }) {
   const { isAuthenticated, user } = useAuth();
   const [favorites, setFavorites] = useState([]);
@@ -21,6 +22,7 @@ export function FavoritesProvider({ children }) {
 
     let ignore = false;
 
+    // Favorites are loaded after login and hidden from consumers when logged out.
     async function loadFavorites() {
       setIsLoadingFavorites(true);
       setFavoritesError("");

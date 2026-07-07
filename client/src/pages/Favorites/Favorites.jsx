@@ -2,6 +2,7 @@ import { useFavorites } from "../../context/useFavorites";
 import GameCard from "../../components/GameCard/GameCard";
 import "./Favorites.css";
 
+// Protected page for the current user's saved games.
 function Favorites() {
   const { favorites, favoritesError, isLoadingFavorites } = useFavorites();
 

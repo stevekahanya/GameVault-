@@ -1,9 +1,12 @@
+"""Collection model for grouping games under the authenticated user."""
+
 from datetime import datetime
 
 from app.extensions import db
 
 
 class Collection(db.Model):
+    """User-owned named collection with optional game entries."""
     __tablename__ = "collections"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -35,6 +38,7 @@ class Collection(db.Model):
     )
 
     def to_dict(self):
+        """Serialize collection details with included game ids."""
         return {
             "id": self.id,
             "name": self.name,

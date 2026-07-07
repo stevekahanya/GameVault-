@@ -1,3 +1,5 @@
+"""Environment-driven configuration for local and deployed Flask runs."""
+
 import os
 import secrets
 from datetime import timedelta
@@ -10,10 +12,12 @@ BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 
 def split_origins(value):
+    """Turn a comma-separated CORS_ORIGINS env var into a clean list."""
     return [origin.strip() for origin in value.split(",") if origin.strip()]
 
 
 class Config:
+    # Defaults keep local setup easy, while production should set explicit secrets.
     SECRET_KEY = os.getenv("SECRET_KEY") or secrets.token_hex(32)
 
     SQLALCHEMY_DATABASE_URI = os.getenv(
@@ -31,6 +35,7 @@ class Config:
 
     RAWG_API_KEY = os.getenv("RAWG_API_KEY")
 
+    # Vite's common localhost origins are allowed by default for development.
     CORS_ORIGINS = split_origins(
         os.getenv(
             "CORS_ORIGINS",

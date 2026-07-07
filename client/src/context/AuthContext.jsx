@@ -10,6 +10,7 @@ import {
 } from "../services/authApi";
 import { AuthContext } from "./authContextValue";
 
+// Owns JWT persistence, current-user verification, and login/register/logout actions.
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(getStoredUser);
   const [token, setToken] = useState(getAuthToken);
@@ -22,6 +23,7 @@ export function AuthProvider({ children }) {
 
     let ignore = false;
 
+    // Revalidate stored tokens on reload so stale localStorage data cannot fake a session.
     async function verifyUser() {
       try {
         const currentUser = await fetchCurrentUser();

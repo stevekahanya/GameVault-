@@ -12,6 +12,7 @@ import {
   getFilteredGames,
 } from "../../services/gameApi";
 
+// Browse Games coordinates search, filters, and the public game grid.
 function BrowseGames() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,6 +22,7 @@ function BrowseGames() {
   const [platform, setPlatform] = useState("");
   const [sortBy, setSortBy] = useState("");
 
+  // Initial load uses the Flask game proxy, which falls back when RAWG is not configured.
   useEffect(() => {
     let ignore = false;
 

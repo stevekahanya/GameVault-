@@ -8,6 +8,7 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import { useAuth } from "../context/useAuth";
 
+// Prevents unauthenticated users from opening user-owned resource pages directly.
 function ProtectedRoute({ children }) {
   const { isAuthenticated, isCheckingAuth } = useAuth();
   const location = useLocation();
@@ -23,6 +24,7 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
+// Keeps logged-in users away from auth forms and returns them to their saved games.
 function GuestRoute({ children }) {
   const { isAuthenticated, isCheckingAuth } = useAuth();
 

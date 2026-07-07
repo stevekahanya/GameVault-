@@ -4,6 +4,7 @@ import GameCard from "../../components/GameCard/GameCard";
 import { getGames } from "../../services/gameApi";
 import "../../styles/globals.css";
 
+// Legacy home page kept for compatibility with earlier QuestLog routes.
 const Home = () => {
     const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(true);

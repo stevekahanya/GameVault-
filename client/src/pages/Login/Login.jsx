@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
 import "./Login.css";
 
+// Login updates global auth state and returns users to their intended protected route.
 function Login() {
   const { login } = useAuth();
   const location = useLocation();

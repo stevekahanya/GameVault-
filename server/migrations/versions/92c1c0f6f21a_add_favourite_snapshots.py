@@ -16,6 +16,7 @@ depends_on = None
 
 
 def upgrade():
+    # Store enough display data for Favorites without requiring a second RAWG fetch.
     with op.batch_alter_table("favourites") as batch_op:
         batch_op.add_column(sa.Column("game_name", sa.String(length=255), nullable=True))
         batch_op.add_column(sa.Column("background_image", sa.String(length=500), nullable=True))
@@ -28,6 +29,7 @@ def upgrade():
 
 
 def downgrade():
+    # Reverse the snapshot columns and uniqueness constraint if this migration is rolled back.
     with op.batch_alter_table("favourites") as batch_op:
         batch_op.drop_constraint("uq_favourites_user_game", type_="unique")
         batch_op.drop_column("released")

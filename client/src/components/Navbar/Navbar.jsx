@@ -3,6 +3,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
 import "./Navbar.css";
 
+// Shows public navigation plus login/logout controls based on shared auth state.
 function Navbar() {
   const { isAuthenticated, logout, user } = useAuth();
   const navigate = useNavigate();

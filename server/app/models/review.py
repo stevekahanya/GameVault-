@@ -1,9 +1,12 @@
+"""Review model for user-owned game feedback."""
+
 from datetime import datetime
 
 from app.extensions import db
 
 
 class Review(db.Model):
+    """A rating and comment tied to both a RAWG game and a QuestLog user."""
     __tablename__ = "reviews"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -16,6 +19,7 @@ class Review(db.Model):
     user = db.relationship("User", back_populates="reviews")
 
     def to_dict(self):
+        """Serialize with username fields expected by the React review list."""
         username = self.user.username if self.user else "Deleted user"
         return {
             "id": self.id,

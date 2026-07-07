@@ -1,10 +1,14 @@
+"""Application factory for the QuestLog Flask API."""
+
 from flask import Flask, jsonify
 from flask_cors import CORS
 
 from app.config import Config
 from app.extensions import db, bcrypt, jwt, migrate
 
+
 def create_app(config_class=Config):
+    """Create the API app, initialize extensions, and register namespaced routes."""
     app = Flask(__name__)
     app.config.from_object(config_class)
 
@@ -13,6 +17,7 @@ def create_app(config_class=Config):
     jwt.init_app(app)
     migrate.init_app(app, db)
 
+    # Restrict browser access to the configured React origins while keeping /api namespaced.
     CORS(
         app,
         resources={r"/api/*": {"origins": app.config["CORS_ORIGINS"]}},
@@ -25,6 +30,8 @@ def create_app(config_class=Config):
         Review,
         User,
     )
+
+    # Blueprints keep auth, games, and user-owned resources separated by concern.
     from app.routes.auth import auth_bp
     from app.routes.collections import collections_bp
     from app.routes.favourites import favourites_bp
@@ -47,6 +54,7 @@ def create_app(config_class=Config):
     def health_check():
         return jsonify({"status": "ok"}), 200
 
+    # Return JSON errors for JWT failures so React can display useful auth messages.
     @jwt.unauthorized_loader
     def handle_missing_token(reason):
         return jsonify({"error": "Authentication is required.", "detail": reason}), 401

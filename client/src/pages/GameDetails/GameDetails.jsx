@@ -12,10 +12,12 @@ import {
 } from "../../services/reviewsApi";
 import "./GameDetails.css";
 
+// API descriptions can include HTML; strip it before rendering inside React text nodes.
 function stripHtml(value = "") {
   return value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+// Game details combines public metadata with authenticated favorite and review actions.
 function GameDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -78,6 +80,7 @@ function GameDetails() {
     return game.description_raw || stripHtml(game.description);
   }, [game]);
 
+  // Favorites are protected server-side; the UI redirects guests before attempting a save.
   async function handleFavoriteToggle() {
     if (!isAuthenticated) {
       navigate("/login", { state: { from: { pathname: `/games/${id}` } } });

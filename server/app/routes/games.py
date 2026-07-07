@@ -1,3 +1,5 @@
+"""Game proxy routes that keep RAWG API access behind the Flask backend."""
+
 import json
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
@@ -9,6 +11,7 @@ games_bp = Blueprint("games", __name__, url_prefix="/api/games")
 
 RAWG_BASE_URL = "https://api.rawg.io/api"
 
+# Fallback data mirrors the original deployed app so local demos work without RAWG credentials.
 SAMPLE_GAMES = [
     {
         "id": 3498,
@@ -94,6 +97,7 @@ SAMPLE_GAMES = [
 
 
 def rawg_request(path, params):
+    """Call RAWG when a key is configured; otherwise let callers use fallback data."""
     api_key = current_app.config.get("RAWG_API_KEY")
 
     if not api_key:
@@ -110,6 +114,7 @@ def rawg_request(path, params):
 
 
 def fallback_games(params):
+    """Apply the same search/filter/sort behavior to local sample games."""
     games = SAMPLE_GAMES
     search = params.get("search", "").lower()
     genre = params.get("genres")
@@ -151,6 +156,7 @@ def fallback_games(params):
 
 @games_bp.route("", methods=["GET"])
 def list_games():
+    """List games from RAWG or the local fallback catalog."""
     params = {
         "search": request.args.get("search", ""),
         "genres": request.args.get("genre", ""),
@@ -172,6 +178,7 @@ def list_games():
 
 @games_bp.route("/<int:game_id>", methods=["GET"])
 def get_game(game_id):
+    """Return one game's detail data, falling back to a minimal local record."""
     data = rawg_request(f"/games/{game_id}", {})
 
     if not data:
@@ -192,6 +199,7 @@ def get_game(game_id):
 
 @games_bp.route("/<int:game_id>/screenshots", methods=["GET"])
 def get_game_screenshots(game_id):
+    """Proxy screenshots when available and otherwise return an empty gallery."""
     data = rawg_request(f"/games/{game_id}/screenshots", {})
 
     if not data:

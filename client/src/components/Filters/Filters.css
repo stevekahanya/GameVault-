@@ -1,3 +1,4 @@
+/* Browse filters intentionally use the original white select controls for contrast. */
 .filters {
   display: flex;
   gap: 1rem;

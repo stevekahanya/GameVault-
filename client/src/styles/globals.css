@@ -1,5 +1,6 @@
 @import "./variables.css";
 
+/* Global reset and page background shared by every React route. */
 *,
 *::before,
 *::after {

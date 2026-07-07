@@ -1,9 +1,12 @@
+"""Favourite model storing user-owned saved games and display snapshots."""
+
 from datetime import datetime
 
 from app.extensions import db
 
 
 class Favourite(db.Model):
+    """A saved game for one user, unique by user and RAWG game id."""
     __tablename__ = "favourites"
     __table_args__ = (
         db.UniqueConstraint("user_id", "game_id", name="uq_favourites_user_game"),
@@ -34,6 +37,7 @@ class Favourite(db.Model):
     )
 
     def to_dict(self):
+        """Nest game snapshot data so React can reuse the same GameCard component."""
         return {
             "id": self.id,
             "game_id": self.game_id,

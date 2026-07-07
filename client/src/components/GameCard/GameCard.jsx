@@ -5,6 +5,7 @@ import { useAuth } from "../../context/useAuth";
 import { useFavorites } from "../../context/useFavorites";
 import "./GameCard.css";
 
+// Reusable game summary card with authenticated save/remove behavior.
 const GameCard = ({ game }) => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
@@ -20,6 +21,7 @@ const GameCard = ({ game }) => {
   } = game;
   const saved = isFavorite(id);
 
+  // Guests are routed to login; authenticated users persist favorites through the API.
   async function handleFavoriteClick() {
     if (!isAuthenticated) {
       navigate("/login", { state: { from: { pathname: "/favorites" } } });

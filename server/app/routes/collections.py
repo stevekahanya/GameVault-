@@ -1,3 +1,5 @@
+"""Collection CRUD routes with owner-only authorization."""
+
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -9,10 +11,12 @@ collections_bp = Blueprint("collections", __name__, url_prefix="/api/collections
 
 
 def current_user_id():
+    """Read the authenticated user id from the JWT identity."""
     return int(get_jwt_identity())
 
 
 def find_owned_collection(collection_id):
+    """Fetch a collection and reject access when it belongs to another user."""
     collection = db.session.get(Collection, collection_id)
 
     if not collection:
@@ -27,6 +31,7 @@ def find_owned_collection(collection_id):
 @collections_bp.route("/", methods=["GET"])
 @jwt_required()
 def get_collections():
+    """List only the current user's collections."""
     collections = (
         Collection.query.filter_by(user_id=current_user_id())
         .order_by(Collection.created_at.desc())
@@ -50,6 +55,7 @@ def get_collection(id):
 @collections_bp.route("/", methods=["POST"])
 @jwt_required()
 def create_collection():
+    """Create a new collection owned by the authenticated user."""
     data = request.get_json(silent=True) or {}
     name = data.get("name", "").strip()
 
@@ -71,6 +77,7 @@ def create_collection():
 @collections_bp.route("/<int:id>", methods=["PATCH"])
 @jwt_required()
 def update_collection(id):
+    """Update collection fields after verifying ownership."""
     collection, error = find_owned_collection(id)
 
     if error:
@@ -111,6 +118,7 @@ def delete_collection(id):
 @collections_bp.route("/<int:id>/games", methods=["POST"])
 @jwt_required()
 def add_game_to_collection(id):
+    """Attach a RAWG game id to an owned collection without duplicating it."""
     collection, error = find_owned_collection(id)
 
     if error:

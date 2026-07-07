@@ -1,5 +1,6 @@
 import { API_BASE_URL, apiRequest } from "./authApi";
 
+// Public read endpoint shows every review for a game, even to logged-out visitors.
 export async function getGameReviews(gameId) {
   try {
     const response = await fetch(`${API_BASE_URL}/games/${gameId}/reviews`);
@@ -11,6 +12,7 @@ export async function getGameReviews(gameId) {
   }
 }
 
+// Mutating review endpoints require JWT auth and are owner-checked by Flask.
 export async function submitGameReview(gameId, reviewData) {
   return apiRequest(`/games/${gameId}/reviews`, {
     method: "POST",

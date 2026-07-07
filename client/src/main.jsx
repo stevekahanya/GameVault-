@@ -11,6 +11,7 @@ import { FavoritesProvider } from "./context/FavouritesContext";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
+      {/* AuthProvider wraps FavoritesProvider so saved games can react to login state. */}
       <AuthProvider>
         <FavoritesProvider>
           <App />

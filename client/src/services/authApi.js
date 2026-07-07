@@ -4,6 +4,7 @@ export const API_BASE_URL =
 const TOKEN_KEY = "questlog_token";
 const USER_KEY = "questlog_user";
 
+// Shared API helper attaches the JWT when present and normalizes JSON errors.
 export async function apiRequest(path, options = {}) {
   const token = getAuthToken();
   const headers = {
@@ -34,6 +35,7 @@ export async function apiRequest(path, options = {}) {
   return data;
 }
 
+// Auth endpoints persist both token and safe user profile after successful responses.
 async function authRequest(path, payload) {
   const data = await apiRequest(`/auth${path}`, {
     method: "POST",

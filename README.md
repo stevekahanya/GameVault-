@@ -1,3 +1,5 @@
+<!-- Project handoff notes for the full-stack QuestLog auth application. -->
+
 # QuestLog
 
 QuestLog is a full-stack Flask and React app for discovering games, saving favourites, and writing player reviews. It uses JWT authentication, user-owned resources, namespaced API routes, and protected React routes.

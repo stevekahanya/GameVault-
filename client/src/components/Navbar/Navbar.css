@@ -1,3 +1,4 @@
+/* Top navigation keeps the original QuestLog branding while exposing auth actions. */
 .navbar {
   display: flex;
   justify-content: space-between;

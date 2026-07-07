@@ -1,3 +1,5 @@
+"""Favourite routes for saving and removing games owned by the current user."""
+
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -10,6 +12,7 @@ favourites_bp = Blueprint("favourites", __name__, url_prefix="/api/favourites")
 @favourites_bp.route("/", methods=["GET"])
 @jwt_required()
 def get_favourites():
+    """Return saved game snapshots for the authenticated user."""
     favourites = (
         Favourite.query.filter_by(user_id=int(get_jwt_identity()))
         .order_by(Favourite.created_at.desc())
@@ -22,6 +25,7 @@ def get_favourites():
 @favourites_bp.route("/", methods=["POST"])
 @jwt_required()
 def add_favourite():
+    """Create or refresh a favourite using game display data from the client."""
     data = request.get_json(silent=True) or {}
     game = data.get("game") or {}
 
@@ -43,6 +47,7 @@ def add_favourite():
         db.session.add(favourite)
         status_code = 201
 
+    # Store a snapshot so the Favorites page can render without another RAWG request.
     favourite.game_name = data.get("game_name") or game.get("name")
     favourite.background_image = data.get("background_image") or game.get("background_image")
     favourite.rating = data.get("rating") or game.get("rating")
@@ -56,6 +61,7 @@ def add_favourite():
 @favourites_bp.route("/<int:game_id>", methods=["DELETE"])
 @jwt_required()
 def remove_favourite(game_id):
+    """Delete only the current user's saved copy of a game."""
     favourite = Favourite.query.filter_by(
         user_id=int(get_jwt_identity()),
         game_id=game_id,

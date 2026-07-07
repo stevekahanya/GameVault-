@@ -1,5 +1,6 @@
 import "./Filters.css";
 
+// Controlled filter inputs keep Browse Games as the single source of query state.
 function Filters({
   genre,
   platform,

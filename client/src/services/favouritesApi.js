@@ -1,5 +1,6 @@
 import { apiRequest } from "./authApi";
 
+// Favorite routes are user-owned, so every request goes through the auth helper.
 export function getFavourites() {
   return apiRequest("/favourites/");
 }

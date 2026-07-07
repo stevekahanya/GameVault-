@@ -1,3 +1,4 @@
+/* Game detail layout combines public game data with authenticated favorites and review CRUD. */
 .game-details-container {
   display: grid;
   gap: 1.5rem;

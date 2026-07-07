@@ -1,9 +1,12 @@
+"""User model with password hashing and owned-resource relationships."""
+
 from datetime import datetime
 
 from app.extensions import db, bcrypt
 
 
 class User(db.Model):
+    """Authenticated QuestLog account."""
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -29,12 +32,15 @@ class User(db.Model):
     )
 
     def set_password(self, password):
+        """Hash a raw password before storage."""
         self.password_hash = bcrypt.generate_password_hash(password).decode("utf-8")
 
     def check_password(self, password):
+        """Compare a login password with the stored bcrypt hash."""
         return bcrypt.check_password_hash(self.password_hash, password)
 
     def to_dict(self):
+        """Return only safe profile fields for API responses."""
         return {
             "id": self.id,
             "username": self.username,

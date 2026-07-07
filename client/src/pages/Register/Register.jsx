@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
 import "../Login/Login.css";
 
+// Registration creates an account, stores the JWT, and starts an authenticated session.
 function Register() {
   const { register } = useAuth();
   const navigate = useNavigate();

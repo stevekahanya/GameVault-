@@ -1,3 +1,5 @@
+"""Review routes for public reads and owner-only mutations."""
+
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -8,10 +10,12 @@ reviews_bp = Blueprint("reviews", __name__, url_prefix="/api")
 
 
 def current_user_id():
+    """Read the authenticated user id from the JWT identity."""
     return int(get_jwt_identity())
 
 
 def find_owned_review(review_id):
+    """Fetch a review and reject updates/deletes from non-owners."""
     review = db.session.get(Review, review_id)
 
     if not review:
@@ -24,6 +28,7 @@ def find_owned_review(review_id):
 
 
 def clean_review_payload(data, partial=False):
+    """Validate review payloads for create and partial update requests."""
     errors = {}
     payload = {}
 
@@ -49,6 +54,7 @@ def clean_review_payload(data, partial=False):
 
 @reviews_bp.route("/games/<int:game_id>/reviews", methods=["GET"])
 def get_game_reviews(game_id):
+    """Public endpoint: show all reviews attached to a game."""
     reviews = (
         Review.query.filter_by(game_id=game_id)
         .order_by(Review.created_at.desc())
@@ -73,6 +79,7 @@ def get_my_reviews():
 @reviews_bp.route("/games/<int:game_id>/reviews", methods=["POST"])
 @jwt_required()
 def add_game_review(game_id):
+    """Create a review owned by the authenticated user."""
     data = request.get_json(silent=True) or {}
     payload, errors = clean_review_payload(data)
 
@@ -106,6 +113,7 @@ def get_review(review_id):
 @reviews_bp.route("/reviews/<int:review_id>", methods=["PATCH"])
 @jwt_required()
 def update_review(review_id):
+    """Update an owned review after validating changed fields."""
     review, error = find_owned_review(review_id)
 
     if error:

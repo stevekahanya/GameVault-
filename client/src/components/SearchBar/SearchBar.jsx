@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./SearchBar.css";
 
+// Local search form delegates the actual game lookup to the Browse Games page.
 function SearchBar({ onSearch, isSearching = false }) {
   const [query, setQuery] = useState("");
 

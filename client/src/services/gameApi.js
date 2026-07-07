@@ -1,6 +1,7 @@
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
+// All game browsing goes through Flask so the RAWG key stays server-side.
 async function requestGames(params = {}) {
   const queryParams = new URLSearchParams();
 
