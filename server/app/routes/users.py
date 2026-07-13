@@ -14,6 +14,7 @@ users_bp = Blueprint("users", __name__)
 @jwt_required()
 def get_current_user():
 
+    # Auth tokens store identity as a string; SQLAlchemy looks users up by int id.
     current_user_id = int(get_jwt_identity())
 
     user = User.query.get(current_user_id)

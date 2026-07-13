@@ -40,6 +40,7 @@ function renderStars(rating) {
 function GameDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  // Read the logged-in user once so the review form mirrors the current session.
   const [currentUser] = useState(() => getStoredUser());
 
   const [game, setGame] = useState(null);
@@ -70,6 +71,7 @@ function GameDetails() {
         if (!isMounted) return;
 
         const reviewList = backendReviews || [];
+        // If the user already reviewed this game, prefill the form for editing.
         const existingReview = currentUser
           ? reviewList.find((review) => review.user_id === currentUser.id)
           : null;
@@ -97,6 +99,7 @@ function GameDetails() {
     };
   }, [id, currentUser]);
 
+  // This controls the edit/delete state for the logged-in player's own review.
   const userReview = currentUser
     ? reviews.find((review) => review.user_id === currentUser.id)
     : null;
@@ -130,6 +133,7 @@ function GameDetails() {
         comment: reviewText.trim(),
       });
 
+      // Replace this user's previous review locally while keeping newest first.
       setReviews((prev) => [
         newReview,
         ...prev.filter((review) => (

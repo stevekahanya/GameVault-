@@ -9,6 +9,7 @@ reviews_bp = Blueprint("reviews", __name__)
 
 
 def serialize_review(review):
+    # Keep the response shape aligned with the GameDetails client component.
     return {
         "id": review.id,
         "game_id": review.game_id,
@@ -54,6 +55,7 @@ def add_game_review(game_id):
 
     status = 200
 
+    # One review per user per game keeps updates simple and prevents duplicates.
     if review:
         review.rating = rating
         review.comment = comment
@@ -83,6 +85,7 @@ def delete_game_review(game_id, review_id):
         game_id=game_id,
     ).first_or_404()
 
+    # Users may only remove reviews that were created from their own account.
     if review.user_id != int(get_jwt_identity()):
         return jsonify({
             "error": "You can only delete your own review."

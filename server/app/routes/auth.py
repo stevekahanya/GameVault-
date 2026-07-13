@@ -64,6 +64,7 @@ def login():
             "error": "Invalid email or password."
         }), 401
 
+    # Flask-JWT-Extended expects the token subject to be serialized as a string.
     access_token = create_access_token(
         identity=str(user.id)
     )

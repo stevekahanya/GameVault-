@@ -13,6 +13,7 @@ RAWG_BASE_URL = "https://api.rawg.io/api"
 
 
 def rawg_api_key():
+    # Support both backend and existing Vite-style env names during setup.
     return os.getenv("RAWG_API_KEY") or os.getenv("VITE_RAWG_API_KEY")
 
 
@@ -94,6 +95,8 @@ def get_game_details(game_id):
         {"page_size": 12},
     )
 
+    # Screenshots enrich the detail page, but the game itself should still load
+    # if RAWG has a temporary issue with the screenshots endpoint.
     if screenshot_error:
         screenshots = {"results": []}
 

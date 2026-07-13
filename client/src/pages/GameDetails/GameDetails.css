@@ -34,6 +34,7 @@
   color: #ffb8b8;
 }
 
+/* Hero and primary game summary */
 .game-hero {
   position: relative;
   overflow: hidden;
@@ -100,6 +101,7 @@
   color: #ffffff;
 }
 
+/* Detail sections and metadata */
 .game-content {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
@@ -234,6 +236,7 @@
   color: #ffd166;
 }
 
+/* Review form and player feedback */
 .review-form,
 .review-login-callout {
   padding: 1rem;
@@ -406,6 +409,7 @@
   font-size: 0.88rem;
 }
 
+/* Keep the detail layout comfortable on tablet and phone widths. */
 @media (max-width: 840px) {
   .game-content {
     grid-template-columns: 1fr;

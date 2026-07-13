@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./ScreenShotGallery.css";
 
 function ScreenshotGallery({ screenshots = [], gameName = "Game" }) {
+  // Store the selected id instead of an index so refreshed screenshot lists stay safe.
   const [selectedScreenshotId, setSelectedScreenshotId] = useState(null);
 
   if (screenshots.length === 0) {

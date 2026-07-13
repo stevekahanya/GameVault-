@@ -8,6 +8,7 @@ class Review(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     game_id = db.Column(db.Integer, nullable=False)
+    # Reviews are owned by authenticated users so ratings can be edited safely.
     user_id = db.Column(
         db.Integer,
         db.ForeignKey("users.id"),

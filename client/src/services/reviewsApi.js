@@ -20,6 +20,7 @@ export async function getGameReviews(gameId) {
     const response = await fetch(`${BASE_URL}/games/${gameId}/reviews`);
     return await parseResponse(response, "Failed to fetch reviews.");
   } catch (error) {
+    // Reviews should not block the game detail page if the API is unreachable.
     console.warn(error.message);
     return [];
   }
@@ -28,6 +29,7 @@ export async function getGameReviews(gameId) {
 export async function submitGameReview(gameId, reviewData) {
   const token = getAuthToken();
 
+  // Review writes are tied to the logged-in user for ownership checks.
   if (!token) {
     throw new Error("Please log in to leave a review.");
   }
@@ -47,6 +49,7 @@ export async function submitGameReview(gameId, reviewData) {
 export async function deleteGameReview(gameId, reviewId) {
   const token = getAuthToken();
 
+  // The backend verifies this token owns the review before deleting it.
   if (!token) {
     throw new Error("Please log in to delete a review.");
   }

@@ -31,6 +31,7 @@
   font-weight: 700;
 }
 
+/* Main screenshot preview with compact previous/next controls. */
 .gallery-viewer {
   position: relative;
   overflow: hidden;
@@ -78,6 +79,7 @@
   right: 0.85rem;
 }
 
+/* Thumbnail buttons make the selected image obvious without shifting layout. */
 .screenshot-thumbnails {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));

@@ -37,6 +37,7 @@ def create_app():
     app.register_blueprint(users_bp, url_prefix="/api/users")
     app.register_blueprint(collections_bp, url_prefix="/api/collections")
     app.register_blueprint(favourites_bp, url_prefix="/api/favourites")
+    # Game details and reviews share the /api/games resource path on the client.
     app.register_blueprint(games_bp, url_prefix="/api/games")
     app.register_blueprint(reviews_bp, url_prefix="/api")
 

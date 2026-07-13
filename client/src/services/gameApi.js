@@ -41,6 +41,7 @@ export function getFilteredGames({ genre, platform, sortBy }) {
 }
 
 export async function getGameDetails(gameId) {
+  // Backend returns the RAWG detail payload plus screenshots in one request.
   const response = await fetch(`${API_BASE_URL}/games/${gameId}`);
 
   if (!response.ok) {
