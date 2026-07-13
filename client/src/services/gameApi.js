@@ -39,3 +39,13 @@ export function getFilteredGames({ genre, platform, sortBy }) {
     sort_by: sortBy,
   });
 }
+
+export async function getGameDetails(gameId) {
+  const response = await fetch(`${API_BASE_URL}/games/${gameId}`);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch game details.");
+  }
+
+  return response.json();
+}
